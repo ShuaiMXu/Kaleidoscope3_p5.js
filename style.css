@@ -1,0 +1,35 @@
+html, body {
+  margin: auto;
+  padding-top: 0;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+p {
+  font-size: 14px;
+}
+canvas {
+  display: block;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.anjiao{
+  position:absolute;
+  left:0;
+  top:0;
+  padding-top: 50px;
+  padding-left: 500px;
+
+}
