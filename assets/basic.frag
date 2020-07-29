@@ -7,6 +7,9 @@ precision mediump float;
 
 uniform vec2 iResolution;
 uniform float iTime;
+uniform vec3 bgColor;
+uniform vec3 ob1Color;
+uniform vec3 ob2Color;
 
 uniform float noise1;
 uniform float noise2;
@@ -63,7 +66,7 @@ float Bokeh(vec2 p, vec2 sp, float size, float mi, float blur)
 
 vec2 hash( vec2 p ){
 	p = vec2( dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)));
-	return fract(sin(p)*43758.5453) * .2 - 1.0;
+	return fract(sin(p)*43758.5453) * .2 - 0.0;
 }
 
 float dirt(vec2 uv, float n)
@@ -86,7 +89,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     uv.x *= iResolution.x / iResolution.y;
     uv *= 2.0;
 
-    vec3 col = vec3(0.0);
+    vec3 col = vec3(bgColor);
     #define N 6
     #define NN float(N)
     #define INTERVAL 3.0
@@ -99,15 +102,15 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         col = mix(col, INTENSITY, dirt(mod(uv * max(0.0, t) * 0.1 + vec2(.2, -.2) * iTime, 1.2), 3.5));
 
         t = ii * INTERVAL - mod(iTime + INTERVAL * 0.5, INTERVAL);
-        col = mix(col, INTENSITY * vec3(0.6, 0.6, .8) * 1.3,tex(uv * max(0.0, t), 4.45));
+        col = mix(col, INTENSITY * vec3(ob1Color) * 1.3,tex(uv * max(0.0, t), 4.45));
 
         t = ii * INTERVAL - mod(iTime - INTERVAL * 0.25, INTERVAL);
-        col = mix(col, INTENSITY * vec3(1.), dirt(mod(uv * max(0.0, t) * 0.1 + vec2(-.2, -.2) *  iTime, 1.2), 3.5));
+        col = mix(col, INTENSITY * vec3(ob1Color), dirt(mod(uv * max(0.0, t) * 0.1 + vec2(-.2, -.2) *  iTime, 1.2), 3.5));
 
         t = ii * INTERVAL - mod(iTime, INTERVAL);
-    	float r = length(uv * 2.0 * max(0.0, t));
-    	float rr = sm(-24.0, -0.0, (r - mod(iTime * 30.0, 90.0)), 10.0);
-        col = mix(col, mix(INTENSITY * vec3(1.), INTENSITY * vec3(0.7, 0.5, 1.0) * 3.0, rr),tex(uv * 2.0 * max(0.0, t), 0.27 + (2.0 * rr)));
+      	float r = length(uv * 2.0 * max(0.0, t));
+      	float rr = sm(-24.0, -0.0, (r - mod(iTime * 5.0, 90.0)), 10.0);
+        col = mix(col, mix(INTENSITY * vec3(1.), INTENSITY * vec3(ob2Color) * 3.0, rr),tex(uv * 2.0 * max(0.0, t), 0.27 + (2.0 * rr)));
 
     }
 

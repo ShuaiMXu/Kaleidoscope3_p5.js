@@ -1,7 +1,25 @@
 var cnv;
+var gui;
 let img;  //Declare variable 'img'.
-//slider setup
-let speedSlider, noise1, noise2, rColor, gColor, bColor,light,num;
+
+//GUI slider setup
+var speed = 5;
+var seed1 = 10;
+var seed2 = 10;
+
+var bgColorR = 0;
+var bgColorG = 0;
+var bgColorB = 0;
+
+var ob1ColorR = 204;
+var ob1ColorG = 118;
+var ob1ColorB = 71;
+
+var ob2ColorR = 115;
+var ob2ColorG = 56;
+var ob2ColorB = 20;
+
+
 
 // this variable will hold our shader object
 let theShader;
@@ -14,7 +32,7 @@ function preload(){
 }
 
 function centerCanvas() {
-  var x = (windowWidth - width) / 2;
+  var x = (windowWidth - width) / 2 ;
   var y = (windowHeight - height) / 2;
   cnv.position(500, 50);
   cnv.style('z-index','-2');
@@ -28,42 +46,39 @@ function setup() {
   background(255);
   textSize(32);
   fill(0, 102, 153);
+  // create the GUI
+  gui = createGui('slider-range-2');
 
-  // 创建 slider
-  speedSlider = createSlider(1, 20, 5,1);
-  speedSlider.position(130, 45);
-  button = createButton("速率/形态");
-  button.position(30, 45);
+  // set slider range for seeds
+  sliderRange(1, 50, 1);
+  gui.addGlobals('speed');
 
-  noise1Slider = createSlider(1, 180, 10,1);
-  noise1Slider.position(130, 85);
-  button = createButton("形态1");
-  button.position(30, 85);
+  sliderRange(1, 180, 1);
+  gui.addGlobals('seed1');
 
-  noise2Slider = createSlider(1, 100, 10,1 );
-  noise2Slider.position(130, 125);
-  button = createButton("形态2");
-  button.position(30, 125);
+  sliderRange(1, 180, 1);
+  gui.addGlobals('seed2');
 
+  sliderRange(0, 255, 0.0001);
+  gui.addGlobals('bgColorR','bgColorG','bgColorB');
 
+  sliderRange(0, 255, 0.0001);
+  gui.addGlobals('ob1ColorR','ob1ColorG','ob1ColorB');
 
+  sliderRange(0, 255, 0.0001);
+  gui.addGlobals('ob2ColorR','ob2ColorG','ob2ColorB');
 }
 
 function draw(){
-  //slider
-  const speed = speedSlider.value();
-
-  const noise1 = noise1Slider.value();
-
-  const noise2 = noise2Slider.value();
-
-
 
   // shader() sets the active shader with our shader
   shader(theShader);
   theShader.setUniform("iResolution", [width, height]);
-  theShader.setUniform('noise1', noise1);
-  theShader.setUniform('noise2', noise2);
+  theShader.setUniform('noise1', seed1);
+  theShader.setUniform('noise2', seed2);
+  theShader.setUniform('bgColor',[bgColorR/255,bgColorG/255,bgColorB/255]);
+  theShader.setUniform('ob1Color',[ob1ColorR/255,ob1ColorG/255,ob1ColorB/255]);
+  theShader.setUniform('ob2Color',[ob2ColorR/255,ob2ColorG/255,ob2ColorB/255]);
 
   theShader.setUniform('iTime', frameCount * speed * 0.002);
   theShader.setUniform("iMouse", [mouseX, map(mouseY, 0, height, height, 0)]);
@@ -75,5 +90,5 @@ function draw(){
 }
 
 function windowResized() {
-  centerCanvas();
+  resizeCanvas(windowWidth, windowHeight);
 }

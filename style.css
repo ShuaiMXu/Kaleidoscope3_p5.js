@@ -22,7 +22,7 @@ canvas {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 40%;
 }
 
 .anjiao{
@@ -32,4 +32,11 @@ canvas {
   padding-top: 50px;
   padding-left: 500px;
 
+}
+.production{
+  position:absolute;
+  left:0;
+  top:0;
+  padding-top: 50px;
+  padding-left: 500px;
 }
