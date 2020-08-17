@@ -19,10 +19,12 @@ canvas {
 }
 
 .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 40%;
+  position:absolute;
+  left:0px;
+  top:0px;
+  padding-top: 50px;
+  padding-left: 500px;
+  width: 800px;
 }
 
 .anjiao{
